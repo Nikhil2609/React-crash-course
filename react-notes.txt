@@ -1,0 +1,99 @@
+=============================================================
+### Create react application ###
+=============================================================
+npx create-react-app myfirst-react-app --template typescript
+
+=============================================================
+### routing ###
+=============================================================
+
+2.1) Routing in app.js file
+    <Router>
+        <Routes>
+          <Route path="/" element={<LoginPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/add-product" element={<CreateProduct />} />
+          <Route path="/products" element={<ProductList />} />
+        </Routes>
+      </Router>
+
+2.2) navigate from one page to another
+
+const navigate = useNavigate();
+const navigateToLogin = () => navigate("/login);
+
+
+=============================================================
+### Context Integration ###
+=============================================================
+
+=> steps 
+    1) createContext 
+    2) pass Provider to main component
+    3) use the context where you want to use...
+
+=> implementation
+
+    example 1 : 
+    1) create context 
+        const ThemeContext = createContext(null);
+        const CurrentUserContext = createContext(null);
+
+    2) provider of conext to main app
+        const [theme, setTheme] = useState('light');
+        const [currentUser, setCurrentUser] = useState(null);
+
+        return (
+            <ThemeContext.Provider value={theme}>
+            <CurrentUserContext.Provider value={{ currentUser, setCurrentUser }}> // if we pass multiple in context then give in object form
+                <App />
+            </CurrentUserContext.Provider>
+            </ThemeContext.Provider>
+        );
+
+    3) how to use in component
+
+        const theme = useContext(ThemeContext);
+        const {currentUser} = useContext(CurrentUserContext);
+        const {setCurrentUser} = useContext(CurrentUserContext); // for modify the context 
+
+=============================================================
+### Styling in material ui using makeStyles ###
+=============================================================
+    1) import function
+    ------------------------------------------------------
+    import { makeStyles } from "@material-ui/core/styles";
+
+    2) define styles for classes
+    ------------------------------------------------------
+    const useStyles: Function = makeStyles((theme) => ({
+        root: {
+            backgroundColor: 'lightblue',
+            color: "white",
+            padding: '10px',
+            borderRadius: '5px',
+            [theme.breakpoints.down("md")]: {
+                backgroundColor: 'lightgreen',
+            },
+            "&:hover: {
+                backgroundColor: 'green',
+            }
+        },
+        header: {
+            backgroundColor: 'pink',
+        }
+    }));
+
+    3) create function and then use styles
+    ------------------------------------------------------
+    const classes = useStyles();
+
+    4) use classes in tag for css
+    ------------------------------------------------------
+    <div className={classes.root}>
+        root description
+        
+        <span className=className={classes.header}>
+            header description
+        </span>
+    </div>
